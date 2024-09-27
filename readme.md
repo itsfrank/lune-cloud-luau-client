@@ -10,6 +10,8 @@ Engine API for Executing Luau beta.
 
 1. Make sure you have lune installed: [documentation](https://lune-org.github.io/docs/getting-started/1-installation)
 2. Make an ApiKey for the API: [instructions the announcement](https://devforum.roblox.com/t/beta-open-cloud-engine-api-for-executing-luau/3172185?u=itsfrank17)
+    - put the key in a file and use the `-k` option
+    - or set the `RBLX_OC_API_KEY` environment variable with your key as the value
 
 #### CLI
 
