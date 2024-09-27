@@ -1,0 +1,10 @@
+{
+  "languageMode": "strict",
+  "lint": {
+    "*": true
+  },
+  "aliases": {
+    "pkg": "scripts/luau/pkg/",
+    "lune": "~/.lune/.typedefs/0.8.8/"
+  }
+}
