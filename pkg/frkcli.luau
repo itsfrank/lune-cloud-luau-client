@@ -260,6 +260,41 @@ function M.new(name: string, description: string?, helpKeys: { string }?)
     end
 
     function cli:help(indent: number?): string
+        local function alignCols(rows: { { string } }, sep: string?): { { string } }
+            local sep = if sep == nil then " " else sep
+            local maxColLengths: { number } = {}
+            for _, row in rows do
+                for i, s in row do
+                    if maxColLengths[i] == nil or s:len() > maxColLengths[i] then
+                        maxColLengths[i] = s:len()
+                    end
+                end
+            end
+            local alignedRows: { { string } } = {}
+            for _, row in rows do
+                local line: { string } = {}
+                for i, col in row do
+                    table.insert(line, col)
+                    if i < #row then
+                        local spacing = sep
+                        local diff = maxColLengths[i] - col:len()
+                        if diff > 0 then
+                            spacing = string.rep(" ", diff) .. sep
+                        end
+                        table.insert(line, spacing)
+                    end
+                end
+                table.insert(alignedRows, line)
+            end
+            return alignedRows
+        end
+
+        local function appendList<T>(dest: { T }, src: { T })
+            for _, v in src do
+                table.insert(dest, v)
+            end
+        end
+
         local ind = "  "
         if indent ~= nil then
             ind = string.rep(" ", indent)
@@ -297,52 +332,59 @@ function M.new(name: string, description: string?, helpKeys: { string }?)
                 end
             end
 
-            local desc = ""
+            local reqdef = ""
             -- optional & default
             if arg.kind ~= "FLAG" then
                 if arg.options.default == nil then
-                    desc ..= "[required]"
+                    reqdef ..= "[required]"
                 else
                     assert(arg.options.default)
-                    desc ..= `[default:  '{arg.options.default}']`
+                    reqdef ..= `[default:  '{arg.options.default}']`
                 end
             end
 
+            local help = ""
             if arg.options.help then
-                if desc ~= "" then
-                    desc ..= " "
+                if help ~= "" then
+                    help ..= " "
                 end
-                desc ..= arg.options.help
+                help ..= arg.options.help
             end
 
-            return { ind, keys, desc }
+            return { ind, keys, reqdef, help }
         end
 
         -- positionals
         if #cli._positionals > 0 then
             table.insert(helpLines, {})
             table.insert(helpLines, { "positional arguments:" })
+            local positionalLines: { { string } } = {}
             for _, arg in cli._positionals do
-                table.insert(helpLines, makeArgLine(arg))
+                table.insert(positionalLines, makeArgLine(arg))
             end
+            appendList(helpLines, alignCols(positionalLines))
         end
 
         -- flags
         if #cli._flags > 0 then
             table.insert(helpLines, {})
             table.insert(helpLines, { "flags:" })
+            local flagLines: { { string } } = {}
             for _, arg in cli._flags do
-                table.insert(helpLines, makeArgLine(arg))
+                table.insert(flagLines, makeArgLine(arg))
             end
+            appendList(helpLines, alignCols(flagLines))
         end
 
         -- options
         if #cli._options > 0 then
             table.insert(helpLines, {})
             table.insert(helpLines, { "options:" })
+            local optionLines: { { string } } = {}
             for _, arg in cli._options do
-                table.insert(helpLines, makeArgLine(arg))
+                table.insert(optionLines, makeArgLine(arg))
             end
+            appendList(helpLines, alignCols(optionLines))
         end
 
         local helpText = ""
