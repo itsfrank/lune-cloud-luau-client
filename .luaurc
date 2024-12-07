@@ -5,6 +5,7 @@
   },
   "aliases": {
     "pkg": "scripts/luau/pkg/",
-    "lune": "~/.lune/.typedefs/0.8.8/"
+    "lune": "~/.lune/.typedefs/0.8.8/",
+    "tasks": "src"
   }
 }
