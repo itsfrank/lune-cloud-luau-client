@@ -19,7 +19,7 @@ local llc_tasks = require("@llc_tasks/tasks")
 local task_file = "./my_task"
 local task = llc_tasks.create_from_file(task_file, {api_key="...", universe_id=123, place_id=321})
 
--- we are ignoring errors, check out the examples/error_handling folder for error handling
+-- we are ignoring errors, check out example/run_error_handling.luau for error handling
 local res, _ = task:call("hello", "world")
 assert(res.output == "hello, world")
 
