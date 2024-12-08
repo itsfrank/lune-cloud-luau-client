@@ -47,6 +47,12 @@ This has the advantage of making your tasks reusable, any module that returns a 
 
 ** module that doesn't require anything that will not be in the place where the task is executed
 
+## Using
+
+Eventually, I would like to put this on package managers like wally and pesde, but for that I need to find a name I like.
+
+For now, if you copy the `/src` folder into your project and rename it something like `llc_tasks` you should be good to go!
+
 ## Acknowledgement
 
 Thank you https://github.com/regginator/LuaEncode for the lua table serializer,
