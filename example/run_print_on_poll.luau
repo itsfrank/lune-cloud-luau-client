@@ -1,4 +1,4 @@
-local tasks = require("@llc_tasks")
+local tasks = require("@llc_tasks/tasks")
 local req_params = require("env_params")
 
 local task_file = "example/task.luau"

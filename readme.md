@@ -46,3 +46,8 @@ local sum = res.result + 1 -- error, 'res.result' is string, not number
 This has the advantage of making your tasks reusable, any module that returns a function is now a cloud task!**
 
 ** module that doesn't require anything that will not be in the place where the task is executed
+
+## Acknowledgement
+
+Thank you https://github.com/regginator/LuaEncode for the lua table serializer,
+LuaEncode is how the input to `:call()` gets sent over to RCC
