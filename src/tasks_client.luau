@@ -10,7 +10,18 @@ export type TasksError = {
     res: net.FetchResponse?,
 }
 
--- TODO export common input types
+export type CreateTaskParams = {
+    api_key: string,
+    universe_id: number | string,
+    place_id: number | string,
+    place_version: (number | string)?,
+}
+
+export type PollTaskOpts = {
+    poll_max_attempts: number?,
+    poll_wait_seconds: number?,
+    on_poll: ((decoded_body: any, full_res: net.FetchResponse) -> nil)?,
+}
 
 local m_tasks_client = {}
 
@@ -35,15 +46,7 @@ function make_request(url: string, headers: { [string]: string }, body: any?): n
     return res
 end
 
-function m_tasks_client.create_task(
-    script: string,
-    params: {
-        api_key: string,
-        universe_id: number | string,
-        place_id: number | string,
-        place_version: (number | string)?,
-    }
-): (any?, TasksError?)
+function m_tasks_client.create_task(script: string, params: CreateTaskParams): (any?, TasksError?)
     local headers = {
         ["Content-Type"] = "application/json",
         ["x-api-key"] = params.api_key,
@@ -79,20 +82,12 @@ function m_tasks_client.create_task(
     return body
 end
 
-function m_tasks_client.poll_task_completion(
-    api_key: string,
-    path: string,
-    opts: {
-        poll_max_attempts: number?,
-        poll_wait_seconds: number?,
-        on_poll: ((net.FetchResponse) -> nil)?,
-    }?
-): (any?, TasksError?)
+function m_tasks_client.poll_task_completion(api_key: string, path: string, opts: PollTaskOpts?): (any?, TasksError?)
     opts = utils.notnil_or_default(opts, {})
     assert(opts ~= nil)
     local poll_max_attempts = utils.notnil_or_default(opts.poll_max_attempts, -1)
     local poll_wait_seconds = utils.notnil_or_default(opts.poll_wait_seconds, 2)
-    local on_poll = utils.notnil_or_default(opts.on_poll, function(_) end)
+    local on_poll = utils.notnil_or_default(opts.on_poll, function(_, _) end)
 
     local headers = {
         ["x-api-key"] = api_key,
@@ -100,15 +95,15 @@ function m_tasks_client.poll_task_completion(
     local url = `https://apis.roblox.com/cloud/v2/{path}`
 
     local attempts = 0
-    while attempts < poll_max_attempts do
+    while poll_max_attempts == -1 or attempts < poll_max_attempts do
         attempts += 1
         local res = make_request(url, headers)
 
-        local luau_task = net.jsonDecode(res.body)
-        if luau_task["state"] ~= "PROCESSING" then
-            return luau_task
+        local res_body = net.jsonDecode(res.body)
+        if res_body["state"] ~= "PROCESSING" then
+            return res_body
         end
-        on_poll(luau_task)
+        on_poll(res_body, res)
 
         task.wait(poll_wait_seconds)
     end
