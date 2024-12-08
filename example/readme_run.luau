@@ -1,6 +1,6 @@
 -- run.luau
 local req_params = require("env_params")
-local llc_tasks = require("@tasks/tasks")
+local llc_tasks = require("@llc_tasks")
 
 local task_file = "example/readme_my_task.luau"
 local task = llc_tasks.create_from_file(task_file, req_params)

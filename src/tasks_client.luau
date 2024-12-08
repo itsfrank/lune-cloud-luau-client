@@ -25,7 +25,7 @@ export type PollTaskOpts = {
 
 local m_tasks_client = {}
 
-function make_request(url: string, headers: { [string]: string }, body: any?): net.FetchResponse
+local function make_request(url: string, headers: { [string]: string }, body: any?): net.FetchResponse
     local max_attempts = 3
     local res = nil
     for i = 1, max_attempts do

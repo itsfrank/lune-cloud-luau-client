@@ -5,6 +5,6 @@
   },
   "aliases": {
     "lune": "~/.lune/.typedefs/0.8.9/",
-    "tasks": "src"
+    "llc_tasks": "src"
   }
 }
