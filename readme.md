@@ -1,6 +1,6 @@
 # lune-luau-cloud-tasks (llc_tasks)
 
-Run cloud luau tasks ergonomically with typechecking!
+Run [cloud luau tasks](https://devforum.roblox.com/t/beta-open-cloud-engine-api-for-executing-luau/3172185?u=itsfrank17) ergonomically with typechecking!
 
 With llc_tasks, you can execute a task by calling it just like you would a
 normal function. And, optionally, the call and return can fully leverage Luau's
