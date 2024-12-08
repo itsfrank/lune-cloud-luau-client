@@ -2,7 +2,7 @@
 
 > If you are looking to execute tasks from your own Lune scripts, I rewrote
 > this entire project as a library with a muhch more ergonomic API for use from
-> lune scripts. You can find it in the [ergo-input]() branch
+> lune scripts. You can find it in the [ergo-input](https://github.com/itsfrank/lune-cloud-luau-client/tree/ergo-input?tab=readme-ov-file) branch
 
 This is a lune port of the sample client script provided by Roblox in the
 [announcement](https://devforum.roblox.com/t/beta-open-cloud-engine-api-for-executing-luau/3172185?u=itsfrank17) of the Open Cloud
