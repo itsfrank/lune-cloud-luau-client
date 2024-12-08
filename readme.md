@@ -3,9 +3,8 @@
 Run cloud luau tasks ergonomically with typechecking!
 
 With llc_tasks, you can execute a task by calling it just like you would a
-normal function. And, optionally, the call and return can full leverage Luau's
-typesystem. This is a lune port of the sample client script provided by Roblox
-in the
+normal function. And, optionally, the call and return can fully leverage Luau's
+typesystem.
 
 ```Luau
 -- my_task.luau
